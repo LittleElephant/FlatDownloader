@@ -6,10 +6,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetHtmlText {
+public class GetAddress {
     public String flatNumber;
-    public String[] getHtmlText(String request) throws IOException {
-      org.jsoup.nodes.Document htmlDoc = null;
+    public String title;
+    public Address getAddress(String request) throws IOException {
+      Address address = new Address();
+        org.jsoup.nodes.Document htmlDoc = null;
         try {
             URL url = new URL(request);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -32,18 +34,23 @@ public class GetHtmlText {
         Elements elements;
         elements = htmlDoc.getElementsByClass("as_td");
         String text = elements.text();
-        String title = String.valueOf(htmlDoc.getElementsByTag("h1").text());
+        title = String.valueOf(htmlDoc.getElementsByTag("h1").text());
         String[] details = text.split(" ");
         int i=0;
         String eq = "доме:";
         for (String s: details){
             if (s.equals(eq)){
                 flatNumber = details[i+1];
+                break;
             }
-            else i++;
-        }
-        String[] info = {title, flatNumber};
+            else {
+                i++;
+                flatNumber = "0";
+            }
+            }
 
-        return info;
+        address.name = title;
+        address.flatNumber = flatNumber;
+        return address;
     }
 }
