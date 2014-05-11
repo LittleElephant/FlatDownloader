@@ -1,3 +1,6 @@
+package flat.lib;
+
+import flat.lib.Address;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import java.io.BufferedReader;

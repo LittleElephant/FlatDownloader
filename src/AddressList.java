@@ -1,25 +1,16 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AddressList {
-    public void GetAddressList() throws IOException {
-        String reqBase = "http://www.moscowmap.ru/adress_all.asp?dom=";
-        String request;
+    public ArrayList<Address> GetAddressList() throws IOException {
+        String request = "http://www.moscowmap.ru/adress_all.asp?dom=%i";
         ArrayList<Address> addressList = null;
-        Address current;
-        GetAddress getAddress = new GetAddress();
-        for (int i = 1939; i < 2000; i++) {
-            request = reqBase + i;
-            current = getAddress.getAddress(request);
-            String eqStreets = "Улицы Москвы – Список улиц";
-            if (current.name.equals(eqStreets)) {
-                System.out.println("Пустой индекс: " + i);
-            }
-            else{
-                System.out.println(current.name + "\t" + current.flatNumber + "\t" + "Индекс:" + "\t" +i);
-            }
+        for (int i = 0; i < 20; i++){
+            request.format(Locale.US, request, i);
+            Address current = new Address(request);
+            addressList.add(current);
         }
-
-//        return addressList;
+        return addressList;
     }
 }
